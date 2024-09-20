@@ -1,33 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Authlayout from "./components/auth/Authlayout.jsx"
+import { Routes, Route } from "react-router-dom"
+import AuthLogin from "./pages/auth/AuthLogin.jsx"
+import AuthRegister from "./pages/auth/AuthRegister.jsx"
+import AdminLayout from "./components/admin-view/AdminLayout.jsx"
+import AdminDashboard from "./pages/admin-view/AdminDashboard.jsx"
+import AdminProducts from "./pages/admin-view/AdminProducts.jsx"
+import AdminOrders from "./pages/admin-view/AdminOrders.jsx"
+import AdminFeatures from "./pages/admin-view/AdminFeatures.jsx"
+import ShoppingLayout from "./components/shopping-view/ShoppingLayout.jsx"
+import PageError from "./pages/not-found/PageError.jsx"
+import ShoppingHome from "./pages/shopping-view/ShoppingHome.jsx"
+import ShoppingAccount from "./pages/shopping-view/ShoppingAccount.jsx"
+import ShoppingCheckout from "./pages/shopping-view/ShoppingCheckout.jsx"
+import ShoppingListing from "./pages/shopping-view/ShoppingListing.jsx"
+import CheckAuth from "./components/common/CheckAuth.jsx"
+import UnAuth from "./Un-auth/UnAuth.jsx"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const isAuthenticated = false
+  const user = null
+ 
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    
+      <div className="flex flex-col overflow-hidden bg-white">
+      <Routes>
+      <Route path="*" element={<PageError/>}/>
+      <Route path="/unauth-page" element={<UnAuth/>}/>
+        <Route path="/auth" element={<Authlayout/>}>
+        <Route path="login" element={<AuthLogin/>} />
+        <Route path="register" element={<AuthRegister/>} />
+        </Route>
+        <Route path="/admin" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <AdminLayout/>
+        </CheckAuth>} >
+        <Route path="dashboard" element={<AdminDashboard/>}/>
+        <Route path="products" element={<AdminProducts/>}/>
+        <Route path="orders" element={<AdminOrders/>}/>
+        <Route path="features" element={<AdminFeatures/>}/>
+        </Route>
+        <Route path="/shop" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <ShoppingLayout/>
+        </CheckAuth>} >
+        <Route path="home" element={<ShoppingHome/>} />
+        <Route path="account" element={<ShoppingAccount/>} />
+        <Route path="check-out" element={<ShoppingCheckout/>} />
+        <Route path="list" element={<ShoppingListing/>} />
+        </Route>
+      </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
