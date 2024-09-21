@@ -1,7 +1,11 @@
-import CommonForm from "@/components/common/CommonForm";
-import { registerFormControls } from "@/config";
+import CommonForm from "@/components/common/CommonForm.jsx";
+import { registerFormControls } from "@/config/index.js";
+import { registerUser } from "@/features/authSlice/index.jsx";
+import {  useToast } from "@/hooks/use-toast";
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const initialState = {
@@ -12,28 +16,46 @@ const initialState = {
 
 function AuthRegister() {
   const [formData, setFormData] = useState(initialState);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const { toast } = useToast();
+  // console.log(formData)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
-    // dispatch(registerUser(formData)).then((data) => {
-    //   if (data?.payload?.success) {
-    //     toast({
-    //       title: data?.payload?.message,
-    //     });
-    //     navigate("/auth/login");
-    //   } else {
-    //     toast({
-    //       title: data?.payload?.message,
-    //       variant: "destructive",
-    //     });
-    //   }
-    // });
+  
+    dispatch(registerUser(formData)).then((data) => {
+      console.log(data);
+  
+      if (data?.payload?.success) {
+        // Success toast
+        toast({
+          title: "Congratulations!!",
+          description: data?.payload?.message || "Account created successfully!",
+          variant: "success",
+        });
+        navigate("/auth/login");
+      } else {
+        // Handle errors
+        const errorMessage = data?.payload?.message || "Registration failed";
+        toast({
+          title: "O... Oh!!",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      }
+    }).catch((error) => {
+      // Handle any potential promise rejections
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong",
+        variant: "destructive",
+      });
+    });
   }
+  
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">

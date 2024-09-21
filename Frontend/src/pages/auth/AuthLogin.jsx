@@ -1,7 +1,10 @@
 import CommonForm from "@/components/common/CommonForm";
 import { loginFormControls } from "@/config";
+import { loginUser } from "@/features/authSlice";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const initialState = {
@@ -11,24 +14,27 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
-  // const dispatch = useDispatch();
-  // const { toast } = useToast();
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  const navigate = useNavigate()
 
   function onSubmit(event) {
     event.preventDefault();
-
-    // dispatch(loginUser(formData)).then((data) => {
-    //   if (data?.payload?.success) {
-    //     toast({
-    //       title: data?.payload?.message,
-    //     });
-    //   } else {
-    //     toast({
-    //       title: data?.payload?.message,
-    //       variant: "destructive",
-    //     });
-    //   }
-    // });
+    
+    dispatch(loginUser(formData)).then((data) => {
+      // console.log(data)
+      if (data?.payload?.success) {
+        toast({
+          title: data?.payload?.message,
+        })
+        navigate("/shop/home");
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
   }
 
   return (

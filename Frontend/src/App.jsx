@@ -15,12 +15,13 @@ import ShoppingCheckout from "./pages/shopping-view/ShoppingCheckout.jsx"
 import ShoppingListing from "./pages/shopping-view/ShoppingListing.jsx"
 import CheckAuth from "./components/common/CheckAuth.jsx"
 import UnAuth from "./Un-auth/UnAuth.jsx"
+import { useSelector } from "react-redux"
 
 
 function App() {
 
-  const isAuthenticated = false
-  const user = null
+ const {isAuthenticated, user} = useSelector((state) => state.auth)
+//  console.log(`isAuthenticated:${isAuthenticated}, user:${user}`)
  
 
   return (
