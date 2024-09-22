@@ -21,22 +21,42 @@ function AuthLogin() {
   function onSubmit(event) {
     event.preventDefault();
     
+    // Basic validation
+    // if (!formData.email || !formData.password) {
+    //   toast({
+    //     title: "Error",
+    //     description: "Email and password are required.",
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
+    
     dispatch(loginUser(formData)).then((data) => {
       // console.log(data)
       if (data?.payload?.success) {
         toast({
-          title: data?.payload?.message,
-        })
-        navigate("/shop/home");
+          title:"Welcome Back!!",
+          description: data?.payload?.message || "Logged in successfully!",
+          variant: "success",
+        });
+        // navigate("/shop/home");
       } else {
         toast({
-          title: data?.payload?.message,
+          title: "Almost there!!",
+          description: data?.payload?.message || "Login failed",
           variant: "destructive",
         });
       }
+    }).catch((error) => {
+      // Handle unexpected errors
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
     });
   }
-
+  
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">

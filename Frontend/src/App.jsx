@@ -20,8 +20,14 @@ import { useSelector } from "react-redux"
 
 function App() {
 
- const {isAuthenticated, user} = useSelector((state) => state.auth)
-//  console.log(`isAuthenticated:${isAuthenticated}, user:${user}`)
+ const isAuthenticated = useSelector((state) => state.authSlice.isAuthenticated)
+ const user = useSelector((state) => state.authSlice.user)
+//  if(user){
+//   console.log(user)
+//  }
+ 
+
+
  
 
   return (
@@ -31,7 +37,9 @@ function App() {
       <Routes>
       <Route path="*" element={<PageError/>}/>
       <Route path="/unauth-page" element={<UnAuth/>}/>
-        <Route path="/auth" element={<Authlayout/>}>
+        <Route path="/auth" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <Authlayout/>
+        </CheckAuth>}>
         <Route path="login" element={<AuthLogin/>} />
         <Route path="register" element={<AuthRegister/>} />
         </Route>

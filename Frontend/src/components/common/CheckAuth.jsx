@@ -12,7 +12,7 @@ function CheckAuth({isAuthenticated, user, children}) {
         if(user?.role === 'admin'){
             return <Navigate to="/admin/dashboard" />;
         }else{
-            console.log("Not Navigated")
+            
             return <Navigate to="/shop/home" />
         }
     }

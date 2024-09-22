@@ -21,7 +21,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-const registerUser = asyncHandler(async (req, res, next) => {
+const registerUser = asyncHandler(async (req, res) => {
   const { userName, email, password } = req.body;
 
   if ([userName, email, password].some((field) => field?.trim() === "")) {
@@ -72,7 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.generateAuthToken(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(400, "Invalid credential");
+    throw new ApiError(400, "Wrong Password! Try Again!!");
     
   }
 
@@ -80,17 +80,21 @@ const loginUser = asyncHandler(async (req, res) => {
   const loggedInUser = await User.findById(user._id)
   const options = {
     httpOnly: true,
-    secure : true
+    secure : false
 }
 
 res
 .status(200)
 .cookie("accessToken",accessToken,options)
 .cookie("refreshToken",refreshToken,options)
-.json(new ApiResponse(200, {
+.json(new ApiResponse(200, 
+  {
     user: loggedInUser, accessToken,
     refreshToken
-}, "User logged in successfully"))
+}
+, "User logged in successfully"))
+
+console.log(req.cookies)
 });
 
 
@@ -124,4 +128,4 @@ const logOutUser = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, {}, "User logged out successfully"))
 })
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, logOutUser};
