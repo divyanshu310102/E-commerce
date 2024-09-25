@@ -4,7 +4,7 @@ import AdminSideBar from './AdminSideBar.jsx'
 import { Outlet } from 'react-router-dom'
 
 function AdminLayout() {
-    const [openSidebar, setOpenSidebar] = useState()
+    const [openSidebar, setOpenSidebar] = useState(false)
   return (
     <div className="flex min-h-screen w-full">
     {/* admin sidebar */}
