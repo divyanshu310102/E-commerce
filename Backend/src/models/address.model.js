@@ -1,12 +1,24 @@
 import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema({
-    userId: String,
-    address: String,
-    city: String,
-    pincode: String,
-    phone: String,
-    notes: String,
+    userId: {
+        type:String
+    },
+    address: {
+        type:String
+    },
+    city: {
+        type:String
+    },
+    pincode: {
+        type:String
+    },
+    phone: {
+        type:String
+    },
+    notes: {
+        type:String
+    },
 
 }, {timestamps:true})
 
