@@ -1,29 +1,3 @@
-// import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
-// import {
-//   Link,
-//   useLocation,
-//   useNavigate,
-//   useSearchParams,
-// } from "react-router-dom";
-// import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-// import { Button } from "../ui/button";
-// import { useDispatch, useSelector } from "react-redux";
-// import { shoppingViewHeaderMenuItems } from "@/config";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "../ui/dropdown-menu";
-// import { Avatar, AvatarFallback } from "../ui/avatar";
-// import { logoutUser } from "@/store/auth-slice";
-// import UserCartWrapper from "./cart-wrapper";
-// import { useEffect, useState } from "react";
-// import { fetchCartItems } from "@/store/shop/cart-slice";
-// import { Label } from "../ui/label";
-
 import { shoppingViewHeaderMenuItems } from "@/config";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Label } from "../ui/label";
@@ -36,6 +10,7 @@ import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import UserCartWrapper from "./UserCartWrapper";
+import { fetchCartItems } from "@/features/Shop/cart.slice";
 
 function MenuItems() {
   const navigate = useNavigate();
@@ -55,7 +30,7 @@ function MenuItems() {
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
 
-    location.pathname.includes("listing") && currentFilter !== null
+    location.pathname.includes("list") && currentFilter !== null
       ? setSearchParams(
           new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
         )
@@ -73,12 +48,12 @@ function MenuItems() {
           {menuItem.label}
         </Label>
       ))}
-    </nav>
+    </nav> 
   );
 }
 
 function HeaderRightContent() {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.authSlice);
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
@@ -89,10 +64,10 @@ function HeaderRightContent() {
   }
 
   useEffect(() => {
-    dispatch(fetchCartItems(user?.id));
+    dispatch(fetchCartItems(user?._id));
   }, [dispatch]);
 
-  console.log(cartItems, "sangam");
+  
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
@@ -105,15 +80,15 @@ function HeaderRightContent() {
         >
           <ShoppingCart className="w-6 h-6" />
           <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
-            {cartItems?.items?.length || 0}
+            {cartItems?.length || 0}
           </span>
           <span className="sr-only">User cart</span>
         </Button>
         <UserCartWrapper
           setOpenCartSheet={setOpenCartSheet}
           cartItems={
-            cartItems && cartItems.items && cartItems.items.length > 0
-              ? cartItems.items
+            cartItems  && cartItems.length > 0
+              ? cartItems
               : []
           }
         />
@@ -121,7 +96,7 @@ function HeaderRightContent() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
+          <Avatar className="bg-black cursor-pointer">
             <AvatarFallback className="bg-black text-white font-extrabold">
               {user?.userName[0].toUpperCase()}
             </AvatarFallback>

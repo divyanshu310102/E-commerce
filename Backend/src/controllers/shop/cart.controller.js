@@ -9,7 +9,8 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 const addToCart = asyncHandler(async (req, res) => {
 
     const { userId, productId, quantity } = req.body;
-
+    
+  
     if (!userId || !productId || quantity <= 0) {
       throw new ApiError(400, "Invalid data provided!!");
 
@@ -21,7 +22,7 @@ const addToCart = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Product not found!!")
     }
 
-    const cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId });
 
     if (!cart) {
       cart = await Cart.create({ userId, items: [] });
@@ -31,11 +32,25 @@ const addToCart = asyncHandler(async (req, res) => {
       (item) => item.productId.toString() === productId
     );
 
+    // console.log(findCurrentProductIndex)
+
     if (findCurrentProductIndex === -1) {
       cart.items.push({ productId, quantity });
     } else {
       cart.items[findCurrentProductIndex].quantity += quantity;
     }
+
+    
+
+    cart.markModified('items');
+    
+    // Save the cart to the database
+    await cart.save();
+
+    // Log the saved cart
+    console.log('Cart after saving:', cart);
+
+    
 
     return res.status(200)
     .json(
@@ -80,6 +95,8 @@ const fetchCartItems = asyncHandler(async (req, res) => {
       salePrice: item.productId.salePrice,
       quantity: item.quantity,
     }));
+
+    console.log(populateCartItems)
 
     return res.status(200)
     .json(new ApiResponse(200, {...cart._doc,

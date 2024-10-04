@@ -11,4 +11,4 @@ router.route("/get-product/:id").get(getProductDetails)
 
 
 
-export default router;
+export default router;   

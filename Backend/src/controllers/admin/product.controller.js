@@ -10,20 +10,25 @@ const uploadFileController = asyncHandler(async (req, res) => {
   try {
     // Check if file is available in the request
     if (!req.file) {
-      throw new ApiError(400, "File not uploaded");
+      throw new ApiError(400, "File not found!!");
     }
 
     // Path of the file uploaded locally by Multer
     const localFilePath = req.file.path;
     // console.log(localFilePath)
 
-    // Upload the file to Cloudinary
+    
     const cloudinaryResponse = await uploadFileToCloudinary(localFilePath);
-    // console.log(cloudinaryResponse.url)
+    
 
     if (!cloudinaryResponse) {
       throw new ApiError(500, "File upload to Cloudinary failed.")
     }
+
+    const product = await Product.create({
+     image:cloudinaryResponse.url, // Cloudinary image URL
+     
+   });
 
     // Send success response with Cloudinary file details
     return res

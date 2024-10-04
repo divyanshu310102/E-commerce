@@ -1,15 +1,10 @@
-// import { Minus, Plus, Trash } from "lucide-react";
-// import { Button } from "../ui/button";
-// import { useDispatch, useSelector } from "react-redux";
-// import { deleteCartItem, updateCartQuantity } from "@/store/shop/cart-slice";
-// import { useToast } from "../ui/use-toast";
-
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../ui/button";
 import { Minus, Plus, Trash } from "lucide-react";
+import { deleteCartItem, updateCartQuantity } from "@/features/Shop/cart.slice.js";
 
-function UserCartItemsContent({ cartItem }) {
+function UserCartItemsContent({ cartItem }) { 
   const { user } = useSelector((state) => state.authSlice);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { productList } = useSelector((state) => state.shopProducts);
@@ -17,20 +12,26 @@ function UserCartItemsContent({ cartItem }) {
   const { toast } = useToast();
 
   function handleUpdateQuantity(getCartItem, typeOfAction) {
+    // console.log(getCartItem)
     if (typeOfAction == "plus") {
-      let getCartItems = cartItems.items || [];
+
+      let getCartItems = cartItems || [];
+
+      console.log(getCartItems)
 
       if (getCartItems.length) {
         const indexOfCurrentCartItem = getCartItems.findIndex(
           (item) => item.productId === getCartItem?.productId
         );
 
+        console.log(indexOfCurrentCartItem)
+
         const getCurrentProductIndex = productList.findIndex(
           (product) => product._id === getCartItem?.productId
         );
         const getTotalStock = productList[getCurrentProductIndex].totalStock;
 
-        console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
+        // console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
 
         if (indexOfCurrentCartItem > -1) {
           const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
@@ -48,7 +49,7 @@ function UserCartItemsContent({ cartItem }) {
 
     dispatch(
       updateCartQuantity({
-        userId: user?.id,
+        userId: user?._id,
         productId: getCartItem?.productId,
         quantity:
           typeOfAction === "plus"
@@ -66,7 +67,7 @@ function UserCartItemsContent({ cartItem }) {
 
   function handleCartItemDelete(getCartItem) {
     dispatch(
-      deleteCartItem({ userId: user?.id, productId: getCartItem?.productId })
+      deleteCartItem({ userId: user?._id, productId: getCartItem?.productId })
     ).then((data) => {
       if (data?.payload?.success) {
         toast({
@@ -104,7 +105,7 @@ function UserCartItemsContent({ cartItem }) {
             onClick={() => handleUpdateQuantity(cartItem, "plus")}
           >
             <Plus className="w-4 h-4" />
-            <span className="sr-only">Decrease</span>
+            <span className="sr-only">Increase</span>
           </Button>
         </div>
       </div>

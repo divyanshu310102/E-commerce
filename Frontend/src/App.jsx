@@ -32,7 +32,7 @@ function App() {
 //  }
  const dispatch = useDispatch();
  
-
+ 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
