@@ -41,6 +41,7 @@ const dispatch = useDispatch();
 const { toast } = useToast();
 
 function onSubmit(event) {
+  console.log(formData)
   event.preventDefault();
 
   currentEditedId !== null
@@ -51,8 +52,9 @@ function onSubmit(event) {
         })
       ).then((data) => {
         // console.log(data, "edit");
-
+        
         if (data?.payload?.success) {
+          
           dispatch(fetchAllProducts());
           setFormData(initialFormData);
           setOpenCreateProductsDialog(false);
@@ -60,18 +62,24 @@ function onSubmit(event) {
         }
       })
     : dispatch(
-        addNewProduct({
-          ...formData,
-          image: uploadedImageUrl,
-        })
+        addNewProduct(
+          {
+          
+            ...formData,
+            image: uploadedImageUrl,
+          }
+        )
+        
       ).then((data) => {
+        console.log(data)
+        
         if (data?.payload?.success) {
           dispatch(fetchAllProducts());
           setOpenCreateProductsDialog(false);
           setImageFile(null);
           setFormData(initialFormData);
           toast({
-            title: "Product add successfully",
+            title: "Product added successfully",
           });
         }
       });
@@ -96,7 +104,7 @@ useEffect(() => {
   dispatch(fetchAllProducts());
 }, [dispatch]);
 
-// console.log(formData, "productList");
+// console.log(uploadedImageUrl);
 
   return (
     <>
@@ -108,7 +116,7 @@ useEffect(() => {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((productItem) => (
-              <AdminProductTile key={productItem}
+              <AdminProductTile 
                 setFormData={setFormData}
                 setOpenCreateProductsDialog={setOpenCreateProductsDialog}
                 setCurrentEditedId={setCurrentEditedId}

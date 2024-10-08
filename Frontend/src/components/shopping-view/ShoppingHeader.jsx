@@ -63,8 +63,11 @@ function HeaderRightContent() {
     dispatch(logoutUser());
   }
 
+  // console.log(user._id)
+
   useEffect(() => {
-    dispatch(fetchCartItems(user?._id));
+    // console.log(user?._id)
+    dispatch(fetchCartItems({userId:user?._id}));
   }, [dispatch]);
 
   

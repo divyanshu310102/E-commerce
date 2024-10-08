@@ -10,12 +10,14 @@ const initialState = {
 // Add new address async thunk
 export const addNewAddress = createAsyncThunk(
   "addresses/addNewAddress",
-  async (formData, { rejectWithValue }) => {
+  async (formData, {rejectWithValue }) => {
+    // console.log(formData)
     try {
       const response = await axios.post(
         "http://localhost:8000/api/v1/shop/address/add-address",
         formData
       );
+      // console.log(response.data.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to add address");
@@ -26,7 +28,7 @@ export const addNewAddress = createAsyncThunk(
 // Fetch all addresses async thunk
 export const fetchAllAddresses = createAsyncThunk(
   "addresses/fetchAllAddresses",
-  async (userId, { rejectWithValue }) => {
+  async ({userId}, {rejectWithValue }) => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/shop/address/fetch-address/${userId}`
@@ -82,7 +84,8 @@ const addressSlice = createSlice({
       })
       .addCase(addNewAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList.push(action.payload.data);  // Add the new address to the list
+        console.log(action.payload.data)
+        state.addressList = (action.payload.data);  // Add the new address to the list
       })
       .addCase(addNewAddress.rejected, (state, action) => {
         state.isLoading = false;

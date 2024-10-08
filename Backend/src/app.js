@@ -10,7 +10,8 @@ import productRouter from "./routes/Shop/product.route.js"
 import searchRouter from "./routes/Shop/search.route.js"
 import adminOrderRouter from "./routes/Admin/admin.order.route.js"
 import reviewRouter from "./routes/Shop/review.route.js"
-
+import featureRouter from "./routes/common/feature.route.js"
+import shopOrderRouter from "./routes/Shop/order.route.js"
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use("/api/v1/shop/cart",cartRouter)
 app.use("/api/v1/shop/product",productRouter)
 app.use("/api/v1/shop/search",searchRouter)
 app.use("/api/v1/shop/product-review",reviewRouter)
+app.use("/api/v1/common/feature",featureRouter)
+app.use("/api/v1/shop/order",shopOrderRouter)
 
 app.use(errorHandler)     
 

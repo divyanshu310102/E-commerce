@@ -24,7 +24,7 @@ function ProductImageUpload({
   function handleImageFileChange(event) {
     console.log(event.target.files, "event.target.files");
     const selectedFile = event.target.files?.[0];
-    console.log(selectedFile);
+    
 
     if (selectedFile) setImageFile(selectedFile);
   }
@@ -47,17 +47,19 @@ function ProductImageUpload({
   }
 
   async function uploadImageToCloudinary() {
+    
     setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", imageFile);
+    
     const response = await axios.post(
-      "http://localhost:8000/api/v1/admin/product/upload-image",
+      "http://localhost:8000/api/v1/admin/product//upload-image",
       data
     );
-    console.log(response?.data);
+    // console.log(response?.data?.data?.url);
 
     if (response?.data?.success) {
-      setUploadedImageUrl(response?.data?.url);
+      setUploadedImageUrl(response?.data?.data?.url);
       setImageLoadingState(false);
     }
   }
@@ -115,6 +117,9 @@ function ProductImageUpload({
             </Button>
           </div>
         )}
+
+
+
       </div>
     </div>
   );

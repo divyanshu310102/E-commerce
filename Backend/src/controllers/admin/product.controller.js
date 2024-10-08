@@ -7,7 +7,7 @@ import { uploadFileToCloudinary } from "../../utils/cloudinary.js";
 // Define the file upload controller
 const uploadFileController = asyncHandler(async (req, res) => {
   // console.log("hello")
-  try {
+  
     // Check if file is available in the request
     if (!req.file) {
       throw new ApiError(400, "File not found!!");
@@ -25,27 +25,22 @@ const uploadFileController = asyncHandler(async (req, res) => {
       throw new ApiError(500, "File upload to Cloudinary failed.")
     }
 
-    const product = await Product.create({
-     image:cloudinaryResponse.url, // Cloudinary image URL
-     
-   });
+    
 
     // Send success response with Cloudinary file details
     return res
     .status(200)
     .json(new ApiResponse(200, {url: cloudinaryResponse.url}, "Image uploaded successfully"))
 
-  } catch (error) {
-    console.error("Error in file upload:", error);
-    return res.status(500).json({ message: "File upload failed.", error: error.message });
-  }
+  
 });
 
 
 //add a new product
 const addProduct = asyncHandler(async (req, res) => {
-    try {
+   
       const {
+        image,
         title,
         description,
         category,
@@ -55,22 +50,25 @@ const addProduct = asyncHandler(async (req, res) => {
         totalStock,
         averageReview,
       } = req.body;
+      console.log(req.body)
+
+      
   
-      // Check if file (image) is uploaded using Multer
-    //   if (!req.file) {
-    //     throw new ApiError(400, "Image not found");
-    //   }
+     
+      // if (!req.file) {
+      //   throw new ApiError(400, "Image not found");
+      // }
   
-    //   // Upload the image to Cloudinary
-    //   const cloudinaryResponse = await uploadFileToCloudinary(req.file.path);
+      // // Upload the image to Cloudinary
+      // const cloudinaryResponse = await uploadFileToCloudinary(req.file.path);
   
-    //   if (!cloudinaryResponse) {
-    //     throw new ApiError(500, "Image upload to Cloudinary failed.");
-    //   }
+      // if (!cloudinaryResponse) {
+      //   throw new ApiError(500, "Image upload to Cloudinary failed.");
+      // }
   
       // Create new product with the Cloudinary image URL
       const product = await Product.create({
-         // Cloudinary image URL
+        image,
         title,
         description,
         category,
@@ -91,13 +89,7 @@ const addProduct = asyncHandler(async (req, res) => {
       .json(
         new ApiResponse(200, newlyCreatedProduct, "Product created Successfully!!")
       )
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({
-        success: false,
-        message: "Error occurred while adding product.",
-      });
-    }
+    
   });
 
 

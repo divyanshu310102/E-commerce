@@ -48,6 +48,7 @@ if(isLoading) return <Skeleton className="w-[100px] h-[20px] rounded-full" />
       <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
       <Route path="*" element={<PageError/>}/>
+      <Route path="/" element={<AuthRegister/>}/>
       <Route path="/unauth-page" element={<UnAuth/>}/>
         <Route path="/auth" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
         <Authlayout/>
@@ -68,7 +69,7 @@ if(isLoading) return <Skeleton className="w-[100px] h-[20px] rounded-full" />
         </CheckAuth>} >
         <Route path="home" element={<ShoppingHome/>} />
         <Route path="account" element={<ShoppingAccount/>} />
-        <Route path="check-out" element={<ShoppingCheckout/>} />
+        <Route path="checkout" element={<ShoppingCheckout/>} />
         <Route path="list" element={<ShoppingListing/>} />
         </Route>
       </Routes>

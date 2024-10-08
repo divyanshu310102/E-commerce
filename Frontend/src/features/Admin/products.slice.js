@@ -17,7 +17,12 @@ export const addNewProduct = createAsyncThunk(
           "Content-Type": "application/json",
         },
       }
+
+      
+      
     );
+
+    console.log(formData)
 
     return result?.data;
   }
