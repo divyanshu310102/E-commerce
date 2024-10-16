@@ -16,7 +16,7 @@ const setLoading = (state, status) => {
 export const getAllOrdersForAdmin = createAsyncThunk(
   "order/getAllOrdersForAdmin",
   async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/order/get-orders`);
+    const { data } = await axios.get(`/api/v1/admin/order/get-orders`);
     return data;
   }
 );
@@ -24,7 +24,7 @@ export const getAllOrdersForAdmin = createAsyncThunk(
 export const getOrderDetailsForAdmin = createAsyncThunk(
   "order/getOrderDetailsForAdmin",
   async (id) => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/order/get-details/${id}`);
+    const { data } = await axios.get(`/api/v1/admin/order/get-details/${id}`);
     return data;
   }
 );
@@ -33,7 +33,7 @@ export const updateOrderStatus = createAsyncThunk(
   "order/updateOrderStatus",
   async ({ id, orderStatus }) => {
     const { data } = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/v1/admin/order/update-order/${id}`,
+      `/api/v1/admin/order/update-order/${id}`,
       { orderStatus }
     );
     return data;

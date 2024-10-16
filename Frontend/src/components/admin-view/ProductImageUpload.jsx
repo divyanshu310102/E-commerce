@@ -53,10 +53,10 @@ function ProductImageUpload({
     data.append("my_file", imageFile);
     
     const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/v1/admin/product//upload-image`,
+      `/api/v1/admin/product//upload-image`,
       data
     );
-    // console.log(response?.data?.data?.url);
+   
 
     if (response?.data?.success) {
       setUploadedImageUrl(response?.data?.data?.url);
