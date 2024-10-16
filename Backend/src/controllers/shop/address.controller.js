@@ -6,7 +6,7 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 
 const addAddress = asyncHandler(async (req, res) => {
     const { userId, address, city, pincode, phone, notes } = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     
 
     if(

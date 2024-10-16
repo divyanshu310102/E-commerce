@@ -12,10 +12,12 @@ export const addReview = createAsyncThunk(
   "review/addReview",
   async (formdata, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/v1/shop/product-review/add`,
+      
+      const response = await axios.post( 
+        `${import.meta.env.VITE_API_URL}/api/v1/shop/product-review/add`,
         formdata
       );
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
@@ -28,9 +30,11 @@ export const getReviews = createAsyncThunk(
   "review/getReviews",
   async (productId, { rejectWithValue }) => {
     try {
+      console.log(productId)
       const response = await axios.get(
-        `http://localhost:8000/api/v1/shop/product-review/${productId}`
+        `${import.meta.env.VITE_API_URL}/api/v1/shop/product-review/${productId}`
       );
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
@@ -51,7 +55,7 @@ const reviewSlice = createSlice({
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.reviews.push(action.payload.data);  // Append new review to reviews list
+        state.reviews = action.payload.data;  // Append new review to reviews list
       })
       .addCase(addReview.rejected, (state, action) => {
         state.isLoading = false;

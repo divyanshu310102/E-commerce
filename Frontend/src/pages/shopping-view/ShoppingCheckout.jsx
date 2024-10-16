@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 
 function ShoppingCheckout() {
-  const { cartItems } = useSelector((state) => state.shopCart);
+  const { cartItemsId, cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.authSlice);
   const { approvalURL } = useSelector((state) => state.shopOrder);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
@@ -19,8 +19,10 @@ function ShoppingCheckout() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  console.log(currentSelectedAddress, "cartItems");
-  console.log(approvalURL)
+  // console.log(currentSelectedAddress, "cartItems");
+  // console.log(approvalURL)
+      console.log("Id: ",cartItemsId)
+      console.log("List: ",cartItems)
 
   const totalCartAmount =
     cartItems  && cartItems.length > 0
@@ -55,7 +57,7 @@ function ShoppingCheckout() {
 
     const orderData = {
       userId: user?._id,
-      cartId: cartItems?._id,
+      cartId: cartItemsId,
       cartItems: cartItems.map((singleCartItem) => ({
         productId: singleCartItem?.productId,
         title: singleCartItem?.title,

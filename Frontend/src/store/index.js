@@ -7,6 +7,7 @@ import shopProductsSlice from "../features/Shop/product.slice.js"
 import shopReviewSlice from "../features/Shop/review.slice.js"
 import shopAddressSlice from "../features/Shop/address.slice.js"
 import shopOrderSlice from "../features/Shop/order.slice.js"
+import shopSearchSlice from "../features/Shop/search.slice.js"
 import commonFeatureSlice from "../features/common/common.slice.js"
 
 
@@ -24,6 +25,7 @@ export const store = configureStore({
         shopAddress: shopAddressSlice,
         shopReview: shopReviewSlice,
         shopOrder: shopOrderSlice,
+        shopSearch: shopSearchSlice,
 
         commonFeature: commonFeatureSlice,
         

@@ -26,6 +26,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   const { toast } = useToast();
 
+  console.log(reviews)
+
   function handleRatingChange(getRating) {
     console.log(getRating, "getRating");
 
@@ -78,7 +80,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     dispatch(
       addReview({
         productId: productDetails?._id,
-        userId: user?.id,
+        userId: user?._id,
         userName: user?.userName,
         reviewMessage: reviewMsg,
         reviewValue: rating,
@@ -109,7 +111,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
+      <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw] h-screen w-screen overflow-auto">
+      {/* <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 h-screen w-screen overflow-y-auto"> */}
         <div className="relative overflow-hidden rounded-lg">
           <img
             src={productDetails?.image}

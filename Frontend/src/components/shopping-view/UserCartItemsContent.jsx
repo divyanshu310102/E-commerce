@@ -12,7 +12,7 @@ function UserCartItemsContent({ cartItem }) {
   const { toast } = useToast();
 
 
-  console.log(cartItems.length)
+  // console.log(cartItems.length)
 
   
 

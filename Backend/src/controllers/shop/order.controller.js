@@ -29,8 +29,8 @@ const createOrder = asyncHandler( async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/shop/paypal-return",
-        cancel_url: "http://localhost:5173/shop/paypal-cancel",
+        return_url: `${process.env.CORS_ORIGIN}/shop/paypal-return`,
+        cancel_url: `${process.env.CORS_ORIGIN}/shop/paypal-cancel`,
       },
       transactions: [
         {
@@ -75,6 +75,8 @@ const createOrder = asyncHandler( async (req, res) => {
 
         await newlyCreatedOrder.save();
 
+        // console.log(newlyCreatedOrder)
+
         const approvalURL = paymentInfo.links.find(
           (link) => link.rel === "approval_url"
         ).href;
@@ -93,15 +95,16 @@ const capturePayment = asyncHandler( async (req, res) => {
     const { paymentId, payerId, orderId } = req.body;
 
     let order = await Order.findById(orderId);
+    // console.log("OrderSuccess: ",order)
 
-    if (!order) {
+    if (!order) { 
       throw new ApiError(404, "Order not found!!")
-    }
+    } 
 
-    order.paymentStatus = "paid";
-    order.orderStatus = "confirmed";
-    order.paymentId = paymentId;
-    order.payerId = payerId;
+     order.paymentStatus = "paid";
+     order.orderStatus = "confirmed";
+     order.paymentId = paymentId;
+     order.payerId = payerId;
 
     for (let item of order.cartItems) {
       let product = await Product.findById(item.productId);
@@ -116,7 +119,10 @@ const capturePayment = asyncHandler( async (req, res) => {
     }
 
     const getCartId = order.cartId;
+
+    // console.log("capturePaymentId: ",getCartId)
     await Cart.findByIdAndDelete(getCartId);
+    // console.log("Deleted And Updated Successfully!!")
 
     await order.save();
 

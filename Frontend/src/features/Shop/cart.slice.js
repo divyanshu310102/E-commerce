@@ -5,6 +5,7 @@ import axios from "axios";
 const initialState = {
   cartItems: [],
   isLoading: false,
+  cartItemsId: null,
   error: null,
 };
 
@@ -12,28 +13,24 @@ const initialState = {
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, quantity }) => {
-
-    if(!productId){
-      console.log("userId is required!")
-    }
-    console.log(userId)
     const  {data}  = await axios.post(
-      "http://localhost:8000/api/v1/shop/cart/add-to-cart",
+      `${import.meta.env.VITE_API_URL}/api/v1/shop/cart/add-to-cart`,
       { userId, productId, quantity }
     );
     
-    
+    console.log(data)
     return data;
   }
 );
 
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
-  async ({userId}) => {
-    // console.log(userId)
+  async ({userId}) => {  
     const  {data}  = await axios.get(
-      `http://localhost:8000/api/v1/shop/cart/fetch-cart-items/${userId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/shop/cart/fetch-cart-items/${userId}`
     );
+
+    console.log("Success",data)
     return data;
     
   }
@@ -43,7 +40,7 @@ export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
   async ({ userId, productId }) => {
     const { data } = await axios.delete(
-      `http://localhost:8000/api/v1/shop/cart/delete-cart-item/${userId}/${productId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/shop/cart/delete-cart-item/${userId}/${productId}`
     );
     return data;
   }
@@ -53,7 +50,7 @@ export const updateCartQuantity = createAsyncThunk(
   "cart/updateCartQuantity",
   async ({ userId, productId, quantity }) => {
     const { data } = await axios.put(
-      "http://localhost:8000/api/v1/shop/cart/update-cart",
+      `${import.meta.env.VITE_API_URL}/api/v1/shop/cart/update-cart`,
       { userId, productId, quantity }
     );
     
@@ -71,6 +68,7 @@ const handleFulfilled = (state, action) => {
   // console.log(action.payload.data.items)
   state.isLoading = false;
   state.cartItems = action.payload.data.items;
+  state.cartItemsId = action.payload.data._id
 };
 
 const handleRejected = (state, action) => {

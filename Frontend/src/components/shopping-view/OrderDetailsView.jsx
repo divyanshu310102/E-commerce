@@ -8,10 +8,11 @@ import { Separator } from "../ui/separator";
 
 
 function ShoppingOrderDetailsView({ orderDetails }) {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.authSlice);
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    // <DialogContent className="sm:max-w-[600px] overflow-scroll">
+    <DialogContent className="h-screen w-screen overflow-y-auto">
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">

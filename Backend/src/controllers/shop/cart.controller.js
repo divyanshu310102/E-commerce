@@ -96,7 +96,7 @@ const fetchCartItems = asyncHandler(async (req, res) => {
       quantity: item.quantity,
     }));
 
-    console.log(populateCartItems)
+    // console.log(populateCartItems)
 
     return res.status(200)
     .json(new ApiResponse(200, {...cart._doc,
