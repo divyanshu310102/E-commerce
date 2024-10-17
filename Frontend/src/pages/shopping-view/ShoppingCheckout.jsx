@@ -21,8 +21,8 @@ function ShoppingCheckout() {
 
   // console.log(currentSelectedAddress, "cartItems");
   // console.log(approvalURL)
-      console.log("Id: ",cartItemsId)
-      console.log("List: ",cartItems)
+      // console.log("Id: ",cartItemsId)
+      // console.log("List: ",cartItems)
 
   const totalCartAmount =
     cartItems  && cartItems.length > 0

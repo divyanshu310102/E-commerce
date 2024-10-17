@@ -1,35 +1,3 @@
-// import { Button } from "@/components/ui/button";
-// import bannerOne from "../../assets/banner-1.webp";
-// import bannerTwo from "../../assets/banner-2.webp";
-// import bannerThree from "../../assets/banner-3.webp";
-// import {
-//   Airplay,
-//   BabyIcon,
-//   ChevronLeftIcon,
-//   ChevronRightIcon,
-//   CloudLightning,
-//   Heater,
-//   Images,
-//   Shirt,
-//   ShirtIcon,
-//   ShoppingBasket,
-//   UmbrellaIcon,
-//   WashingMachine,
-//   WatchIcon,
-// } from "lucide-react";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   fetchAllFilteredProducts,
-//   fetchProductDetails,
-// } from "@/store/shop/products-slice";
-// import ShoppingProductTile from "@/components/shopping-view/product-tile";
-// import { useNavigate } from "react-router-dom";
-// import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
-// import { useToast } from "@/components/ui/use-toast";
-// import ProductDetailsDialog from "@/components/shopping-view/product-details";
-// import { getFeatureImages } from "@/store/common-slice";
 import banner1 from "../../assets/banner-1.webp"
 import banner2 from "../../assets/banner-2.webp"
 import banner3 from "../../assets/banner-3.webp"
@@ -45,6 +13,9 @@ import { Airplay, BabyIcon, ChevronLeftIcon, ChevronRightIcon, CloudLightning, H
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+
+
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
