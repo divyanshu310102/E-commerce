@@ -36,8 +36,10 @@ function App() {
  const dispatch = useDispatch();
  
  
+ 
   useEffect(() => {
-    dispatch(checkAuth());
+    const token = JSON.parse(sessionStorage.getItem("accessToken"));
+    dispatch(checkAuth(token));
   }, [dispatch]);
  
 

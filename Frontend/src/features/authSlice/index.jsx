@@ -2,10 +2,13 @@ import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
 
+
 const initialState = {
     isAuthenticated: false,
     isLoading: true,
     user: null,
+    accessToken: null,
+    refreshToken: null,
     error: null
 }
 
@@ -64,15 +67,37 @@ export const logoutUser = createAsyncThunk(
 );
 
 
+// export const checkAuth = createAsyncThunk(
+//   "/auth/checkauth",
+
+//   async () => {
+//     const response = await axios.get(
+//       `/api/v1/user/check-auth`,
+//       {                                                //For Localhost only
+//         withCredentials: true,
+//         headers: {
+//           "Cache-Control":
+//             "no-store, no-cache, must-revalidate, proxy-revalidate", 
+//         },
+//       }
+//     );
+
+//     return response.data;
+//   }
+// );
+
+
+
 export const checkAuth = createAsyncThunk(
   "/auth/checkauth",
 
-  async () => {
+  async (accessToken) => {
     const response = await axios.get(
       `/api/v1/user/check-auth`,
-      {
-        withCredentials: true,
+      {                                                //For Localhost only
+        
         headers: {
+          Authorization : `Bearer ${accessToken}`,
           "Cache-Control":
             "no-store, no-cache, must-revalidate, proxy-revalidate", 
         },
@@ -89,6 +114,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {},
+    resetTokenAndCredentials: (state) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.user = null;
+      state.isAuthenticated = false;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -97,7 +128,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload?.data?.user;
+        state.user = action.payload?.user;
         state.isAuthenticated = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -111,13 +142,19 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         // console.log(state.user)
         state.isLoading = false;
-        state.user = action.payload?.success ? action.payload?.data?.user : null;
+        console.log(action.payload)
+        state.user = action.payload?.success ? action.payload?.user : null;
+        state.accessToken = action.payload?.success ? action.payload?.accessToken : null;
+        sessionStorage.setItem("accessToken", JSON.stringify(action.payload?.accessToken));
+        state.refreshToken = action.payload?.success ? action.payload?.refreshToken : null;
+        sessionStorage.setItem("refreshToken", JSON.stringify(action.payload?.refreshToken));
         state.isAuthenticated = action.payload?.success;
         // console.log(state.user)
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        // Handle the error payload here
+        state.accessToken = null;
+        state.refreshToken = null;
         state.error = action.payload?.message || 'Login failed';
       })
       .addCase(checkAuth.pending, (state) => {
@@ -141,5 +178,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {setUser} = authSlice.actions
+export const {setUser, resetTokenAndCredentials} = authSlice.actions
 export default authSlice.reducer

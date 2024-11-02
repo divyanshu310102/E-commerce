@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { Label } from "../ui/label";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { logoutUser } from "@/features/authSlice";
+import { logoutUser, resetTokenAndCredentials } from "@/features/authSlice";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
@@ -60,7 +60,10 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
+    dispatch(resetTokenAndCredentials())
+    sessionStorage.clear();
+    navigate("/auth/login")
   }
 
   // console.log(user._id)
