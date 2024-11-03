@@ -1,6 +1,6 @@
 import CommonForm from "@/components/common/CommonForm.jsx";
 import { registerFormControls } from "@/config/index.js";
-import { registerUser } from "@/features/authSlice/index.jsx";
+import { registerUser } from "@/features/authSlice/index.js";
 import {  useToast } from "@/hooks/use-toast";
 
 import { useState } from "react";
