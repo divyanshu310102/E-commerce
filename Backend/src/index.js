@@ -5,6 +5,7 @@ import { app } from './app.js'
 
 // dotenv.config({
 // })
+// "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
 
 
 
