@@ -53,7 +53,7 @@ function ProductImageUpload({
     data.append("my_file", imageFile);
     
     const response = await axios.post(
-      `/api/v1/admin/product//upload-image`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/admin/product//upload-image`,
       data
     );
    

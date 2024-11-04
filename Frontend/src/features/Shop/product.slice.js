@@ -9,7 +9,7 @@ const initialState = {
 };
 
 // Utility function to build the base API URL
-const apiBaseUrl = `/api/v1/shop/product`;
+const apiBaseUrl = `${import.meta.env.VITE_BACKEND_URL}/api/v1/shop/product`;
 
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
